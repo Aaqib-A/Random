@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hello There!</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    var myVar;    
+    function showTime(){
+		var d = new Date(1947, 7, 15, 0, 0); // Independence Day
+		var nowDate = getNowDate();	
+
+        $(".demo").html(d); // display time on the page		
+			
+		$(".DiffMonth").html(
+			monthDiff(d, nowDate)
+		);
+		
+		$(".DiffYear").html(
+			yearDiff(d, nowDate)
+		);
+		
+		$(".DiffDay").html(
+			dayDiff(d, nowDate)
+		);
+		
+		$(".DiffHours").html(
+			hoursDiff(d, nowDate)
+		);
+		
+		$(".DiffMins").html(
+			minsDiff(d, nowDate)
+		);
+		
+		$(".DiffSec").html(
+			secDiff(d, nowDate)
+		);
+    }
+	
+	$(document).ready(function(){
+        myVar = setInterval("showTime()", 1000);
+    });
+	
+	
+	function getNowDate(){
+		var currentTime = new Date();
+		var currentOffset = currentTime.getTimezoneOffset();
+		var ISTOffset = 330;   // IST offset UTC +5:30 
+		var ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset)*60000);
+		return ISTTime;
+	}
+	
+	function yearDiff(d1, d2) {
+		var months;
+		years = (d2.getFullYear() - d1.getFullYear()) ;
+		return years <= 0 ? 0 : years;
+	}
+	
+	function monthDiff(d1, d2) {
+		var months;
+		months = (d2.getFullYear() - d1.getFullYear()) * 12;
+		months -= d1.getMonth();
+		months += d2.getMonth();
+		months-=1
+		
+		return months <= 0 ? 0 : months;
+	}
+	
+	function dayDiff(d1, d2) {
+		// The number of milliseconds in one day
+        var oneDay = 1000 * 60 * 60 * 24;
+        // Convert both dates to milliseconds
+        var date1_ms = d1.getTime();
+        var date2_ms = d2.getTime();
+        // Calculate the difference in milliseconds
+        var difference_ms = Math.abs(date1_ms - date2_ms);
+
+        // Convert back to days and return
+        return Math.floor(difference_ms/oneDay);
+	}
+	
+	function hoursDiff(d1, d2) {		
+		var diff = d2.valueOf() - d1.valueOf();
+		var diffInHours = diff/1000/60/60; // Convert milliseconds to hours
+		return Math.floor(diffInHours);
+	}
+	
+	function minsDiff(d1, d2) {
+		var diff = d2.getTime() - d1.getTime();
+		return Math.floor(diff / 60000);
+	}
+	function secDiff(d1, d2) {
+		var seconds = Math.abs(d1 - d2) / 1000;
+		return Math.floor(seconds);
+	}
+	
+
+    
+</script>
+</head>
+<body>
+    <span>Date: </span>		<p class="demo"></p> 		<hr/>
+	<span>Years: </span>	<p class="DiffYear"></p> 	<hr/>
+	<span>Months: </span>	<p class="DiffMonth"></p> 	<hr/>
+	<span>Days: </span>		<p class="DiffDay"></p> 	<hr/>
+	<span>Hours: </span>	<p class="DiffHours"></p> 	<hr/>
+	<span>Mins: </span>		<p class="DiffMins"></p> 	<hr/>
+	<span>Sec: </span>		<p class="DiffSec"></p> 	<hr/>
+</body>
+</html>
